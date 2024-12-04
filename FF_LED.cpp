@@ -71,7 +71,7 @@ void FF_LED::setLed(uint8_t _level, unsigned long _delay) {
 
 */
 void FF_LED::setBlink(uint8_t _blinkCount, unsigned long _onTime, unsigned long _offTime, unsigned long _waitTime, uint8_t _minLevel, uint8_t _maxLevel) {
-    Serial.printf(PSTR("setBlink count:%d, on:%u, off:%u, wait:%u, min:%d, max: %d\n"), _blinkCount, _onTime, _offTime, _waitTime, _minLevel, _maxLevel);
+    //Serial.printf(PSTR("setBlink count:%d, on:%u, off:%u, wait:%u, min:%d, max: %d\n"), _blinkCount, _onTime, _offTime, _waitTime, _minLevel, _maxLevel);
     ledBlinksNeeded = _blinkCount;              // Set needed blinks count
     ledOnDelay = _onTime;
     ledOffDelay = _offTime;
@@ -98,7 +98,7 @@ void FF_LED::setBlink(uint8_t _blinkCount, unsigned long _onTime, unsigned long 
 
 */
 void FF_LED::setFixed(uint8_t _level) {
-    Serial.printf(PSTR("setFixed level:%d\n"), _level);
+    //Serial.printf(PSTR("setFixed level:%d\n"), _level);
     ledLevel = _level;
     ledMode = fixed;
     setLed(ledLevel, FF_LED_WAIT_FOR_EVER);
@@ -120,7 +120,7 @@ void FF_LED::setFixed(uint8_t _level) {
 
 */
 void FF_LED::setPulse(bool _increase, unsigned long _upTime, unsigned long _downTime, unsigned long _waitTime, uint8_t _minLevel, uint8_t _maxLevel) {
-    Serial.printf(PSTR("setPulse increase:%d, up:%u, down:%u, wait:%u, min:%d, max: %d\n"), _increase, _upTime, _downTime, _waitTime, _minLevel, _maxLevel);
+    //Serial.printf(PSTR("setPulse increase:%d, up:%u, down:%u, wait:%u, min:%d, max: %d\n"), _increase, _upTime, _downTime, _waitTime, _minLevel, _maxLevel);
     ledIncrease = _increase;                               // Save given parameters
     ledMinLevel = _minLevel;
     ledMaxLevel = _maxLevel;
