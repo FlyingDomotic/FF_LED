@@ -20,7 +20,7 @@
                 \brief Implement few LED effects (fixed, blinking, pulsing) with brightness management
             */
             public:
-                FF_LED(uint8_t _ledPin, bool _isReverted = false, uint8_t _initialLevel = 0);
+                FF_LED(uint8_t _ledPin, bool _isinverted = false, uint8_t _initialLevel = 0);
                 ~FF_LED();
                 enum ledModedType {fixed, blink, pulse};        //!< LED mode definition
                 void begin(void);
@@ -32,7 +32,7 @@
                 void setLed(uint8_t _level, unsigned long _delay);
 
                 uint8_t ledPin = 0;                             //!< Pin where LEd is connected to
-                bool ledReverted = false;                       //!< Is LED reverted (turned on when pin level is low)?
+                bool ledInverted = false;                       //!< Is LED inverted (turned on when pin level is low)?
                 uint8_t ledBlinksNeeded = 0;                    //!< Count of LED blinks needed
                 uint8_t ledBlinksDone = 0;                      //!< Count of LED blinks already done
                 uint8_t ledMinLevel = 0;                        //!< Minimum level for pulse

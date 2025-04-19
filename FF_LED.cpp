@@ -14,14 +14,14 @@
 	Initialize the class
 
 	\param[in]	_ledPin: pin number where LED is connected to 
-	\param[in]	_isReverted: LED reverted (turned on when pin level is low)? (default = false)
+	\param[in]	_isinverted: LED inverted (turned on when pin level is low)? (default = false)
 	\param[in]	_initialLevel: LED level (0-255) at startup (default = 0)
 	\return	none
 
 */
-FF_LED::FF_LED(uint8_t _ledPin, bool _isReverted, uint8_t _initialLevel) {
+FF_LED::FF_LED(uint8_t _ledPin, bool _isinverted, uint8_t _initialLevel) {
     ledPin = _ledPin;
-    ledReverted = _isReverted;
+    ledInverted = _isinverted;
     ledLevel = _initialLevel;
     ledMode = fixed;
 }
@@ -47,11 +47,11 @@ void FF_LED::setLed(uint8_t _level, unsigned long _delay) {
     ledDelay = _delay;                          // Save delay before next change
     ledLastTimeChanged = millis();              // Save change time
     if (ledLevel == 0) {
-        digitalWrite(ledPin, ledReverted ? ledMaxLevel : ledMinLevel);
+        digitalWrite(ledPin, ledInverted ? 255 : 0);
     } else if (ledLevel == 255) {
-        digitalWrite(ledPin, ledReverted ? ledMinLevel : ledMaxLevel);
+        digitalWrite(ledPin, ledInverted ? 0 : 255);
     } else {
-        analogWrite(ledPin, ledReverted ? 255 - ledLevel : ledLevel);
+        analogWrite(ledPin, ledInverted ? 255 - ledLevel : ledLevel);
     }
 }
 
@@ -183,23 +183,23 @@ void FF_LED::loop(void) {
             int16_t ledNewLevel = ledLevel + ledPulseIncrement;
             if (ledPulseIncrement > 0) {                        // Are we increasing level?
                 if (ledNewLevel > ledMaxLevel) {
-                    ledPulseIncrement = -1;                     // Revert way
-                    if (ledIncrease) {                          // Should we increase?
+                    if (ledIncrease) {                          // Is mode = increase?
                         setLed(ledMaxLevel, ledOffDelay);       // Decrease level
                     } else {
                         setLed(ledMaxLevel, ledWaitDelay);      // Wait for interval between 2 pulse sequences
                     }
+                    ledPulseIncrement = -1;                     // Revert way
                 } else {
                     setLed((uint8_t) ledNewLevel, ledOnDelay);
                 }
             } else {                                            // We are decreasing level
                 if (ledNewLevel < ledMinLevel) {
-                    ledPulseIncrement = 1;                      // Revert way
-                    if (!ledIncrease) {                         // Should we decrease?
+                    if (!ledIncrease) {                         // Is mode = decrease?
                         setLed(ledMinLevel, ledOnDelay);        // Increase level
                     } else {
                         setLed(ledMinLevel, ledWaitDelay);      // Wait for interval between 2 pulse sequences
                     }
+                    ledPulseIncrement = 1;                      // Revert way
                 } else {
                     setLed((uint8_t) ledNewLevel, ledOffDelay);
                 }
